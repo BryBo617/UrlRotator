@@ -12,6 +12,7 @@ const getElements = () => {
 };
 
 const initSlideShow = async () => {
+    await getLocalStorage();
     if (hasConfigSettings) {
         slides = [];
         await Data.fetchDefault()
@@ -23,6 +24,7 @@ const initSlideShow = async () => {
             });
 
         if (slides && slides.length > 0) {
+            await setFullscreen();
             rotateSlides();
         } else {
             Notification.pop("No Data", "Looks like you need some data in your table.");
@@ -85,8 +87,7 @@ const setPageFromConfig = config => {
 };
 
 const getLocalStorage = async () => {
-    const config = await LocalStorage.get()
-        .then(setPageFromConfig);
+    const config = await LocalStorage.get().then(setPageFromConfig);
 };
 
 const setFullscreen = () => {
@@ -101,7 +102,5 @@ const setFullscreen = () => {
 (async () => {
     await getElements();
     await setCurrentTab();
-    await getLocalStorage();
-    await setFullscreen();
     initSlideShow();
 })();

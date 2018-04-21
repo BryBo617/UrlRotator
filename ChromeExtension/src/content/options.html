@@ -30,7 +30,9 @@
                     <label class="label" for='machineNameTxt'>Machine Name (Query Term)</label>
                 </div>
                 <div class="flex-col">
-                    <input class="form-control" type='text' id="machineNameTxt" />
+                    <div class="input-group mb-3">
+                        <input class="form-control" type='text' id="machineNameTxt" aria-label="Machine Name" />
+                    </div>
                 </div>
               </div>
               <div class="flex-row">
@@ -38,8 +40,13 @@
                       <label class="label" for='apiUrlTxt'>Set the APIs URL.</label>
                   </div>
                   <div class="flex-col">
-                      <input class="form-control" type='text' id="apiUrlTxt" />
-                  </div>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" id="apiUrlTxt" placeholder="http://127.0.0.1/" aria-label="URL to API">
+                        <div class="input-group-append">
+                            <span class="input-group-text">/api/slides/</span>
+                        </div>
+                    </div>
+                </div>
               </div>
               <div class="flex-row">
                   <div class="flex-col">&nbsp;</div>
