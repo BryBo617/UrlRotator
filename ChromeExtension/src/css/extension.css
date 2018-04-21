@@ -1,0 +1,39 @@
+body {
+    margin:0px;
+    padding:0px;
+    overflow:hidden
+}
+.align-right {
+    text-align: right;
+}
+.content {
+    padding: 15px;
+    margin: 15px;
+    width: 600px;
+    height: 300px;
+}
+
+.flex-row {
+    display: flex;
+    margin-top: 6px;
+}
+
+.flex-col {
+    flex: 1;
+}
+
+.flex-col > .form-control {
+    min-width: 300px;
+}
+
+.start-slideshow {
+    position: absolute;
+    top: 25px;
+    right: 30px;
+}
+
+#urlRotatorContent {
+    overflow:auto;
+    height:100%;
+    width:100%
+}

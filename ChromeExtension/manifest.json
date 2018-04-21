@@ -1,0 +1,32 @@
+{
+    "background": {
+        "scripts": ["/src/js/background.js"],
+        "persistent": false
+    },
+    "browser_action": {
+        "default_title": "Novation iQ - Url Rotator"
+    },
+    "chrome_url_overrides": {
+        "newtab": "/src/content/slideshow.html"
+    },
+    "description": "A data driven URL rotator extension that runs in full screen on launch.",
+    "icons": {
+        "16": "favicon.png",
+        "32": "favicon.png",
+        "48": "favicon.png",
+        "128": "favicon.png"
+    },
+    "manifest_version": 2,
+    "name": "Novation iQ - Url Rotator",
+    "options_page": "/src/content/options.html",
+    "permissions": [
+        "activeTab",
+        "declarativeContent",
+        "http://*/",
+        "https://*/",
+        "notifications",
+        "storage",
+        "tabs"
+    ],
+    "version": "1.0"
+}
