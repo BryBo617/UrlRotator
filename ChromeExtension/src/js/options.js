@@ -40,9 +40,6 @@ const isValidForm = () => {
     if (apiUrlTxt.value === '') {
         results = false;
     }
-    if (machineNameTxt.value === '') {
-        results = false;
-    }
     return results;
 }
 

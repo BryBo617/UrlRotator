@@ -82,7 +82,7 @@ const setCurrentTab = async () => {
 };
 
 const setPageFromConfig = config => {
-    hasConfigSettings = !!config.apiUrl && !!config.machineName;
+    hasConfigSettings = !!config.apiUrl;
     fullscreen = config.fullscreen || false;
 };
 
