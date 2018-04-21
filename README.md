@@ -8,11 +8,12 @@ You will need to download and install the following if they are not already.
 1. [.NET Core SDK 2.0 or later](https://www.microsoft.com/net/download/dotnet-core/runtime-2.0.5)
 2. [.Net Core 2.x Windows Server Hosting](https://www.microsoft.com/net/download/dotnet-core/runtime-2.0.5)
 3. Navigate to the where ever you have the UrlRotator project.
-3. build the UrlRotator.WebApi
+4. build the UrlRotator.WebApi
     ```
     dotnet publish -c Release -o C:\UrlRotator\published
     ```
-4. Add a new website in IIS and set the Physical path to the same place you published to.
+5. Add a new website in IIS and set the Physical path to the same place you published to.
+6. Change the appsettings.json DefaultConnection to hit your SQL Server.
 
 ## Installing Chrome Extension
 follow these steps to install the extension.
