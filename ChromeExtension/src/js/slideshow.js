@@ -1,4 +1,4 @@
-let currentTabId;
+let currentTab;
 let fullscreen;
 let hasConfigSettings;
 let urlRotatorContent;
@@ -11,9 +11,13 @@ const getElements = () => {
     });
 };
 
-const initSlideShow = async () => {
+const initSlideShow = async (tab) => {
+    await getElements();
     await getLocalStorage();
-    if (hasConfigSettings) {
+    if ((tab || currentTab) && hasConfigSettings) {
+
+        if (tab) { await setCurrentTab(tab); }
+
         slides = [];
         await Data.fetchDefault()
             .then(response => {
@@ -24,17 +28,18 @@ const initSlideShow = async () => {
             });
 
         if (slides && slides.length > 0) {
-            await setFullscreen();
             rotateSlides();
         } else {
             Notification.pop("No Data", "Looks like you need some data in your table.");
         }
     } else {
-        chrome.tabs.update(currentTabId, {
+        if (currentTab) {
+            chrome.tabs.update(currentTab.id, {
                 url: '/src/content/options.html'
             },
             () => { } // required, I think. I should check.
-        );
+            );
+        }
     }
 };
 
@@ -63,21 +68,24 @@ const startSlideTimeout = index => {
 
 const setContent = async slide => {
     return new Promise(async resolve => {
-        await fetch(slide.httpLink)
-        .then(response => {
-            return response.text();
-        })
-        .then(content => {
-            urlRotatorContent.innerHTML = content;
-            resolve();
-        });
+        chrome.tabs.update(currentTab.id, {
+            url: slide.httpLink
+        }, resolve());
+        // await fetch(slide.httpLink)
+        // .then(response => {
+        //     return response.text();
+        // })
+        // .then(content => {
+        //     urlRotatorContent.innerHTML = content;
+        //     resolve();
+        // });
     });
 };
 
-const setCurrentTab = async () => {
-    await Utils.getCurrentTab()
-    .then(tabId => {
-        currentTabId = tabId
+const setCurrentTab = (tab) => {
+    return new Promise(async resolve => {
+        currentTab = tab || await Utils.getCurrentTab();
+        resolve();
     });
 };
 
@@ -100,7 +108,6 @@ const setFullscreen = () => {
 };
 
 (async () => {
-    await getElements();
-    await setCurrentTab();
+    await setFullscreen();
     initSlideShow();
 })();

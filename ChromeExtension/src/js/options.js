@@ -2,7 +2,6 @@ let apiUrlTxt;
 let launchInFullScreen;
 let machineNameTxt;
 let saveBtn;
-let startBtn;
 
 const getDomElements = () => {
     return new Promise(resolve => {
@@ -10,7 +9,6 @@ const getDomElements = () => {
         launchInFullScreen = document.getElementById('launchInFullScreenCheckbox');
         machineNameTxt = document.getElementById('machineNameTxt');
         saveBtn = document.getElementById('saveOptionsBtn');
-        startBtn = document.getElementById('startSlideShowBtn');
         resolve();
     });
 }
@@ -19,9 +17,6 @@ const addEventListeners = () => {
     return new Promise(resolve => {
         if(saveBtn) {
             saveBtn.addEventListener('click', saveToStorage);
-        }
-        if (startBtn) {
-            startBtn.addEventListener('click', startSlideShow);
         }
         resolve();
     });
@@ -45,8 +40,8 @@ const isValidForm = () => {
 
 const startSlideShow = () => {
     Utils.getCurrentTab()
-    .then(tabId => {
-        chrome.tabs.update(tabId, { url: '/src/content/slideshow.html' }, () => { });
+    .then(tab => {
+        initSlideShow(tab);
     });
 };
 

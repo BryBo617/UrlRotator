@@ -1,7 +1,15 @@
 {
     "background": {
-        "scripts": ["/src/js/background.js"],
-        "persistent": false
+        "scripts": [
+            "/src/js/utils.js",
+            "/src/js/data.js",
+            "/src/js/enum.js",
+            "/src/js/localStorage.js",
+            "/src/js/notification.js",
+            "/src/js/slideshow.js",
+            "/src/js/background.js"
+        ],
+        "persistent": true
     },
     "browser_action": {
         "default_title": "Novation iQ - Url Rotator"
