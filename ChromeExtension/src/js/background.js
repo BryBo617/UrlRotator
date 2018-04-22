@@ -3,6 +3,9 @@ chrome.browserAction.onClicked.addListener(tab => {
 });
 chrome.tabs.onCreated.addListener(async () => {
     chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
-        initSlideShow(tabs[0]);
+        const currentTab = tabs[0];
+        if (currentTab.url === "chrome://newtab/") {
+            initSlideShow(currentTab);
+        }
     });
 });
