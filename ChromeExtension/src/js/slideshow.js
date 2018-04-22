@@ -5,8 +5,9 @@ let urlRotatorContent;
 let slides = [];
 let loops = 0;
 
-const initSlideShow = async (tab) => {
+const initSlideShow = async (tab, closingTabId) => {
     await getLocalStorage();
+    if (closingTabId) await resetExtension(closingTabId);
     if (tab) { await setCurrentTab(tab); }
     if (loops === 0) { await setFullscreen(); }
 
@@ -39,6 +40,15 @@ const initSlideShow = async (tab) => {
     }
 };
 
+const resetExtension = closingTabId => {
+    return new Promise(async resolve => {
+        if (currentTab.id === closingTabId) {
+            currentTab = null;
+        }
+        resolve();
+    });
+}
+
 const rotateSlides = async () => {
     let index = 0;
 
@@ -66,9 +76,11 @@ const startSlideTimeout = index => {
 const setContent = async slide => {
     return new Promise(async resolve => {
         try {
-            chrome.tabs.update(currentTab.id, {
-                url: slide.httpLink
-            });
+            if (currentTab) {
+                chrome.tabs.update(currentTab.id, {
+                    url: slide.httpLink
+                });
+            }
         } catch (error) {
             console.log(error);
         } finally {

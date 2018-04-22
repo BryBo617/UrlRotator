@@ -9,3 +9,6 @@ chrome.tabs.onCreated.addListener(async () => {
         }
     });
 });
+chrome.tabs.onRemoved.addListener((tabId, info) => {
+    initSlideShow(null, tabId);
+});

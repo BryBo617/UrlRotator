@@ -5,7 +5,7 @@ const LocalStorage = {
                 Enums.storageItems.API_URL,
                 Enums.storageItems.FULLSCREEN,
                 Enums.storageItems.MACHINE_NAME,
-                Enums.storageItems.SLIDES
+                Enums.storageItems.TAB_ID
             ], results => {
                 resolve(results);
             });
