@@ -14,10 +14,9 @@ const getElements = () => {
 const initSlideShow = async (tab) => {
     await getElements();
     await getLocalStorage();
+    if (tab) { await setCurrentTab(tab); }
+
     if ((tab || currentTab) && hasConfigSettings) {
-
-        if (tab) { await setCurrentTab(tab); }
-
         slides = [];
         await Data.fetchDefault()
             .then(response => {

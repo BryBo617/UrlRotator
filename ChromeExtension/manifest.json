@@ -1,14 +1,6 @@
 {
     "background": {
-        "scripts": [
-            "/src/js/utils.js",
-            "/src/js/data.js",
-            "/src/js/enum.js",
-            "/src/js/localStorage.js",
-            "/src/js/notification.js",
-            "/src/js/slideshow.js",
-            "/src/js/background.js"
-        ],
+        "page": "/src/content/background.html",
         "persistent": true
     },
     "browser_action": {
