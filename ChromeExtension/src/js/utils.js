@@ -1,8 +1,8 @@
 const Utils = {
     getCurrentTab: () => {
         return new Promise(resolve => {
-            chrome.tabs.getCurrent(tab => {
-                resolve(tab);
+            chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
+                resolve(tab[0]);
             });
         });
     },
@@ -12,5 +12,8 @@ const Utils = {
         const machine = await LocalStorage.getByKey('machineName');
         const returnValue = `${api}/api/slides/${machine}`;
         return returnValue;
+    },
+    isNewTab: tab => {
+        return tab && tab.url === "chrome://newtab/";
     }
 }

@@ -3,18 +3,12 @@ let fullscreen;
 let hasConfigSettings;
 let urlRotatorContent;
 let slides = [];
-
-const getElements = () => {
-    return new Promise(resolve => {
-        urlRotatorContent = document.getElementById('urlRotatorContent');
-        resolve();
-    });
-};
+let loops = 0;
 
 const initSlideShow = async (tab) => {
-    await getElements();
     await getLocalStorage();
     if (tab) { await setCurrentTab(tab); }
+    if (loops === 0) { await setFullscreen(); }
 
     if ((tab || currentTab) && hasConfigSettings) {
         slides = [];
@@ -33,17 +27,22 @@ const initSlideShow = async (tab) => {
         }
     } else {
         if (currentTab) {
-            chrome.tabs.update(currentTab.id, {
-                url: '/src/content/options.html'
-            },
-            () => { } // required, I think. I should check.
-            );
+            try {
+                chrome.tabs.update(currentTab.id, {
+                    url: '/src/content/options.html'
+                });
+             } catch(error) {
+                 console.log(error);
+             }
+
         }
     }
 };
 
 const rotateSlides = async () => {
     let index = 0;
+
+    loops++;
     do {
         index++;
         await startSlideTimeout(index);
@@ -55,8 +54,7 @@ const startSlideTimeout = index => {
         const currentSlide = slides[index - 1];
         let timeout = currentSlide.timeout * 1000;
         await setContent(currentSlide);
-
-        window.setTimeout(() => {
+        const timer = window.setTimeout(() => {
             if (index === slides.length) {
                 initSlideShow();
             }
@@ -67,17 +65,15 @@ const startSlideTimeout = index => {
 
 const setContent = async slide => {
     return new Promise(async resolve => {
-        chrome.tabs.update(currentTab.id, {
-            url: slide.httpLink
-        }, resolve());
-        // await fetch(slide.httpLink)
-        // .then(response => {
-        //     return response.text();
-        // })
-        // .then(content => {
-        //     urlRotatorContent.innerHTML = content;
-        //     resolve();
-        // });
+        try {
+            chrome.tabs.update(currentTab.id, {
+                url: slide.httpLink
+            });
+        } catch (error) {
+            console.log(error);
+        } finally {
+            resolve();
+        }
     });
 };
 
@@ -100,13 +96,14 @@ const getLocalStorage = async () => {
 const setFullscreen = () => {
     return new Promise(resolve => {
         if (hasConfigSettings && fullscreen) {
-            chrome.windows.update(chrome.windows.WINDOW_ID_CURRENT, { state: "fullscreen" });
+            if (Utils.isNewTab(currentTab)) {
+                chrome.windows.update(chrome.windows.WINDOW_ID_CURRENT, { state: "fullscreen" });
+            }
         }
         resolve();
     });
 };
 
 (async () => {
-    await setFullscreen();
     initSlideShow();
 })();
