@@ -65,8 +65,8 @@ const startSlideTimeout = index => {
         let timeout = currentSlide.timeout * 1000;
         await setContent(currentSlide);
         const timer = window.setTimeout(() => {
-            if (index === slides.length) {
-                initSlideShow();
+            if (index === slides.length && currentTab) {
+                initSlideShow(currentTab);
             }
             resolve();
         }, timeout)
