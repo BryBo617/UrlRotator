@@ -9,7 +9,16 @@
 *.so
 *.lock
 *.ide
+*.suo
+*.shm
+*.ide-wal
+*.ide-shm
+*.pdb
+*.cache
+*.user
 
 .vscode
 published
 TempSites
+bin
+obj
