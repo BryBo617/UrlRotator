@@ -41,7 +41,8 @@ const initSlideShow = async (tab, closingTabId) => {
 };
 
 const resetExtension = closingTabId => {
-    return new Promise(async resolve => {
+    return new Promise(resolve => {
+        if (!currentTab) return;
         if (currentTab.id === closingTabId) {
             currentTab = null;
         }
