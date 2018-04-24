@@ -2,7 +2,7 @@ const Utils = {
     getCurrentTab: () => {
         return new Promise(resolve => {
             chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
-                resolve(tab[0]);
+                resolve(tabs[0]);
             });
         });
     },

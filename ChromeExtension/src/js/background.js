@@ -2,12 +2,12 @@ chrome.browserAction.onClicked.addListener(tab => {
     initSlideShow(tab);
 });
 chrome.tabs.onCreated.addListener(async () => {
-    chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
-        const currentTab = tabs[0];
-        if (Utils.isNewTab(tabs[0])) {
-            initSlideShow(currentTab);
-        }
-    });
+    await Utils.getCurrentTab()
+        .then(async tab => {
+            if (await Utils.isNewTab(tab)) {
+                initSlideShow(tab);
+            }
+        });
 });
 chrome.tabs.onRemoved.addListener((tabId, info) => {
     initSlideShow(null, tabId);

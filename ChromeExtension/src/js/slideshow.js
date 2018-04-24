@@ -8,7 +8,7 @@ let loops = 0;
 const initSlideShow = async (tab, closingTabId) => {
     await getLocalStorage();
     if (closingTabId) await resetExtension(closingTabId);
-    if (tab) { await setCurrentTab(tab); }
+    if (tab && !closingTabId) await setCurrentTab(tab);
     if (loops === 0) { await setFullscreen(); }
 
     if ((tab || currentTab) && hasConfigSettings) {
@@ -89,9 +89,9 @@ const setContent = async slide => {
     });
 };
 
-const setCurrentTab = (tab) => {
+const setCurrentTab = tab => {
     return new Promise(async resolve => {
-        currentTab = tab || await Utils.getCurrentTab();
+        currentTab = tab;
         resolve();
     });
 };
