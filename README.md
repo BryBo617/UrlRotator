@@ -24,8 +24,6 @@ You will need to download and install the following if they are not already.
 
     path-to-application:
     The path to an application .dll file to execute.
-
-    D:\bitbucket\projects\UrlRotator>
     ```
 5. The following snipit below will publish the UrlRotator.sln to the specified location set using the -o flag.
     ```
