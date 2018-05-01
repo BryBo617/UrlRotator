@@ -9,12 +9,38 @@ You will need to download and install the following if they are not already.
 1. [.NET Core SDK 2.0 or later](https://www.microsoft.com/net/download/dotnet-core/runtime-2.0.5)
 2. [.Net Core 2.x Windows Server Hosting](https://www.microsoft.com/net/download/dotnet-core/runtime-2.0.5)
 3. Navigate to the directory you cloned - *UrlRotator\UrlRotator-WebApi* - and open a cmd window.
-4. the code below will build the UrlRotator.sln
+4. Test to make sure you have dotnet on the path.
+    ```
+    dotnet
+    ```
+    You should see the following output.
+    ```
+    Usage: dotnet [options]
+    Usage: dotnet [path-to-application]
+
+    Options:
+    -h|--help            Display help.
+    --version         Display version.
+
+    path-to-application:
+    The path to an application .dll file to execute.
+
+    D:\bitbucket\projects\UrlRotator>
+    ```
+5. The following snipit below will publish the UrlRotator.sln to the specified location set using the -o flag.
     ```
     dotnet publish -c Release -o C:\UrlRotator\published
     ```
-5. Create a website in IIS.
-6. Change the appsettings.json DefaultConnection for your Sql Server instance and security requirements.
+6. Create a website in IIS.
+
+    a. Right click and select "Add Web Site"
+
+    ![alt text](https://github.com/BryBo617/UrlRotator/images/IIS-Right-Click-Menu.png "Right Click Menu")
+
+    b. Complete the configuration as needed.
+
+    ![alt text](https://github.com/BryBo617/UrlRotator/images/IIS-Add-Website.png "Add Website Form")
+7. Change the appsettings.json DefaultConnection for your Sql Server instance and security requirements.
     ```
     "ConnectionStrings": {
         "DefaultConnection": "Server={yourServer};Database={yourDatabase};Trusted_Connection=True;"
