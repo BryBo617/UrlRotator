@@ -35,11 +35,11 @@ You will need to download and install the following if they are not already.
 
     a. Right click and select "Add Web Site"
 
-    ![alt text](https://github.com/BryBo617/UrlRotator/images/IIS-Right-Click-Menu.png "Right Click Menu")
+    ![alt text](images/IIS-Right-Click-Menu.png?raw=true "Right Click Menu")
 
     b. Complete the configuration as needed.
 
-    ![alt text](https://github.com/BryBo617/UrlRotator/images/IIS-Add-Website.png "Add Website Form")
+    ![alt text](/images/IIS-Add-Website.png?raw=true "Add Website Form")
 7. Change the appsettings.json DefaultConnection for your Sql Server instance and security requirements.
     ```
     "ConnectionStrings": {
