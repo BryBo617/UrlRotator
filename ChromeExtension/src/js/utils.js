@@ -3,8 +3,8 @@ import LocalStorage from './localStorage.js';
 export default {
     getCurrentTab: () => {
         return new Promise(resolve => {
-            chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
-                resolve(tabs[0]);
+            chrome.tabs.getSelected(null, tab => {
+                resolve(tab);
             });
         });
     },
