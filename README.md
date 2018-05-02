@@ -31,14 +31,17 @@ You will need to download and install the following if they are not already.
     ```
 6. Create a website in IIS.
 
-    a. Right click and select "Add Web Site"
+    a. Right click on the sites folder and select "Add Website..."
 
     ![alt text](images/IIS-Right-Click-Menu.png?raw=true "Right Click Menu")
 
     b. Complete the configuration as needed.
 
     ![alt text](/images/IIS-Add-Website.png?raw=true "Add Website Form")
-7. Change the appsettings.json DefaultConnection for your Sql Server instance and security requirements.
+7. The Database schema is as follows, the WebApi will not work without it.
+
+    ![alt text](/images/database-schema.png?raw=true "Database Schema")
+8. Change the appsettings.json DefaultConnection for your Sql Server instance and security requirements.
     ```
     "ConnectionStrings": {
         "DefaultConnection": "Server={yourServer};Database={yourDatabase};Trusted_Connection=True;"
