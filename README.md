@@ -47,6 +47,8 @@ You will need to download and install the following if they are not already.
         "DefaultConnection": "Server={yourServer};Database={yourDatabase};Trusted_Connection=True;"
     },
     ```
+9. Add the IIS Application Pool user to SQL Server
+    This article is what I followed. [Add ApplicationPoolIdentity to a SQL Server](https://blogs.msdn.microsoft.com/ericparvin/2015/04/14/how-to-add-the-applicationpoolidentity-to-a-sql-server-login/)
 
 ## Installing Chrome Extension
 follow these steps to install the extension.
