@@ -1,4 +1,4 @@
-const Utils = {
+export default {
     getCurrentTab: () => {
         return new Promise(resolve => {
             chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
@@ -16,4 +16,4 @@ const Utils = {
     isNewTab: tab => {
         return tab && tab.url === "chrome://newtab/";
     }
-}
+};

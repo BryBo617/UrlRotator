@@ -1,11 +1,13 @@
-const LocalStorage = {
+import Enums from './enum.js';
+
+export default {
     get: () => {
         return new Promise(resolve => {
             chrome.storage.local.get([
-                Enums.storageItems.API_URL,
-                Enums.storageItems.FULLSCREEN,
-                Enums.storageItems.MACHINE_NAME,
-                Enums.storageItems.TAB_ID
+                Enums.API_URL,
+                Enums.FULLSCREEN,
+                Enums.MACHINE_NAME,
+                Enums.TAB_ID
             ], results => {
                 resolve(results);
             });

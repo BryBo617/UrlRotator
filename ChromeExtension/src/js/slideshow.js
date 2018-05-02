@@ -1,3 +1,8 @@
+import Data from './data.js';
+import LocalStorage from './localStorage.js';
+import Notification from './notification.js';
+import Utils from './utils.js';
+
 let currentTab;
 let fullscreen;
 let hasConfigSettings;
@@ -35,7 +40,14 @@ const initSlideShow = async (tab, closingTabId) => {
              } catch(error) {
                  console.log(error);
              }
-
+        } else if ((hasConfigSettings) && (slides && slides.length > 0)) {
+            // start it up
+            rotateSlides();
+        } else {
+            Notification.pop('Not set up yet!',
+                'I don\'t have enough configuration to start the show!\n' +
+                'Looks like you may not have the API URI set\n' +
+                'or you don\'t have slides to rotate.');
         }
     }
 };
@@ -117,6 +129,6 @@ const setFullscreen = () => {
     });
 };
 
-(async () => {
+export default (async () => {
     initSlideShow();
 })();
