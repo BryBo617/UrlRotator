@@ -20,10 +20,10 @@ export default class SlideShow {
 
         if ((tab || this.currentTab) && this.hasConfigSettings) {
             this.slides = [];
-            await Data.fetchDefault().then(response => {
-                return response.json();
-            }) .then(data => {
+            await Data.fetchDefault().then(data => {
                 this.slides = data;
+            }).catch(error => {
+                console.log(error);
             });
 
             if (this.slides && this.slides.length > 0) {
@@ -34,7 +34,7 @@ export default class SlideShow {
         } else {
             if (this.currentTab) {
                 try {
-                    chrome.tabs.update(currentTab.id, {
+                    chrome.tabs.update(this.currentTab.id, {
                         url: '/src/content/options.html'
                     });
                 } catch(error) {
@@ -63,7 +63,7 @@ export default class SlideShow {
 
     async resetExtension(closingTabId) {
         if (!this.currentTab) return;
-        if (this.currentTab.id === this.closingTabId) {
+        if (this.currentTab.id === closingTabId) {
             this.currentTab = null;
         }
         return;

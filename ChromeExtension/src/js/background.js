@@ -15,5 +15,5 @@ chrome.tabs.onCreated.addListener(async () => {
         });
 });
 chrome.tabs.onRemoved.addListener((tabId, info) => {
-    slideShow.init(null, tabId);
+    slideShow.resetExtension(tabId);
 });
