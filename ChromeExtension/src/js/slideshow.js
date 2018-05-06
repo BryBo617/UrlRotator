@@ -93,29 +93,33 @@ export default class SlideShow {
     }
 
     async startSlideTimeout(index) {
-        const currentSlide = this.slides[index - 1];
-        let timeout = currentSlide.timeout * 1000;
-        await this.setContent(currentSlide);
-        const timer = await window.setTimeout(() => {
-            if (index === this.slides.length && this.currentTab) {
-                this.init(this.currentTab);
-            }
-            return;
-        }, timeout)
+        return new Promise(async resolve => {
+            const currentSlide = this.slides[index - 1];
+            let timeout = currentSlide.timeout * 1000;
+            await this.setContent(currentSlide);
+            const timer = await window.setTimeout(() => {
+                if (index === this.slides.length && this.currentTab) {
+                    this.init(this.currentTab);
+                }
+                resolve();
+            }, timeout)
+        });
     }
 
     async setContent(slide) {
-        try {
-            if (this.currentTab) {
-                chrome.tabs.update(this.currentTab.id, {
-                    url: slide.httpLink
-                });
+        return new Promise(resolve => {
+            try {
+                if (this.currentTab) {
+                    chrome.tabs.update(this.currentTab.id, {
+                        url: slide.httpLink
+                    });
+                }
+            } catch (error) {
+                console.log(error);
+            } finally {
+                resolve();
             }
-        } catch (error) {
-            console.log(error);
-        } finally {
-            return;
-        }
+        });
     };
 
     async setPageFromConfig(config) {
