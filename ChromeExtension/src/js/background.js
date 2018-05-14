@@ -1,11 +1,19 @@
+import SlideShow from './slideshow.js';
+import Utils from './utils.js';
+
+const slideShow = new SlideShow();
+
 chrome.browserAction.onClicked.addListener(tab => {
-    initSlideShow(tab);
+    slideShow.init(tab);
 });
 chrome.tabs.onCreated.addListener(async () => {
-    await chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
-        initSlideShow(tabs[0]);
-    });
+    await Utils.getCurrentTab()
+        .then(async tab => {
+            if (await Utils.isNewTab(tab)) {
+                slideShow.init(tab);
+            }
+        });
 });
 chrome.tabs.onRemoved.addListener((tabId, info) => {
-    initSlideShow(null, tabId);
+    slideShow.resetExtension(tabId);
 });

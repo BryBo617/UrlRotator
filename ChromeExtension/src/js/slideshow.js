@@ -1,122 +1,129 @@
-let currentTab;
-let fullscreen;
-let hasConfigSettings;
-let urlRotatorContent;
-let slides = [];
-let loops = 0;
+import Data from './data.js';
+import LocalStorage from './localStorage.js';
+import Notification from './notification.js';
+import Utils from './utils.js';
 
-const initSlideShow = async (tab, closingTabId) => {
-    await getLocalStorage();
-    if (closingTabId) await resetExtension(closingTabId);
-    if (tab && !closingTabId) await setCurrentTab(tab);
-    if (loops === 0) { await setFullscreen(); }
+export default class SlideShow {
+    constructor() {
+        this.currentTab = null;
+        this.fullscreen = false;
+        this.hasConfigSettings = false;
+        this.slides = [];
+        this.loops = 0;
+    }
 
-    if ((tab || currentTab) && hasConfigSettings) {
-        slides = [];
-        await Data.fetchDefault()
-            .then(response => {
-                return response.json();
-            })
-            .then(data => {
-                slides = data;
+    async init(tab, closingTabId) {
+        await this.getLocalStorage();
+        if (closingTabId) await this.resetExtension(closingTabId);
+        if (tab && !closingTabId) await this.setCurrentTab(tab);
+        if (this.loops === 0) { await this.setFullscreen(); }
+
+        if ((tab || this.currentTab) && this.hasConfigSettings) {
+            this.slides = [];
+            await Data.fetchDefault().then(data => {
+                this.slides = data;
+            }).catch(error => {
+                console.log(error);
             });
 
-        if (slides && slides.length > 0) {
-            rotateSlides();
+            if (this.slides && this.slides.length > 0) {
+                await this.rotateSlides();
+            } else {
+                Notification.pop("No Data", "Looks like you need some data in your table.");
+            }
         } else {
-            Notification.pop("No Data", "Looks like you need some data in your table.");
+            if (this.currentTab) {
+                try {
+                    chrome.tabs.update(this.currentTab.id, {
+                        url: '/src/content/options.html'
+                    });
+                } catch(error) {
+                    console.log(error);
+                }
+            } else if ((this.hasConfigSettings) && (this.slides && this.slides.length > 0)) {
+                // start it up
+                await this.rotateSlides();
+            } else {
+                Notification.pop('Not set up yet!',
+                    'I don\'t have enough configuration to start the show!\n' +
+                    'Looks like you may not have the API URI set\n' +
+                    'or you don\'t have slides to rotate.');
+            }
         }
-    } else {
-        if (currentTab) {
-            try {
-                chrome.tabs.update(currentTab.id, {
-                    url: '/src/content/options.html'
-                });
-             } catch(error) {
-                 console.log(error);
-             }
+    }; // end init
 
-        }
+    async getLocalStorage() {
+        await LocalStorage.get().then(this.setPageFromConfig.bind(this));
     }
-};
 
-const resetExtension = closingTabId => {
-    return new Promise(resolve => {
-        if (!currentTab) return;
-        if (currentTab.id === closingTabId) {
-            currentTab = null;
+    async setPageFromConfig(config) {
+        this.hasConfigSettings = !!config.apiUrl;
+        this.fullscreen = config.fullscreen || false;
+    }
+
+    async resetExtension(closingTabId) {
+        if (!this.currentTab) return;
+        if (this.currentTab.id === closingTabId) {
+            this.currentTab = null;
         }
-        resolve();
-    });
-}
+        return;
+    }
 
-const rotateSlides = async () => {
-    let index = 0;
+    async setCurrentTab(tab) {
+        this.currentTab = tab;
+        return this.currentTab;
+    }
 
-    loops++;
-    do {
-        index++;
-        await startSlideTimeout(index);
-    } while (index < slides.length);
-};
-
-const startSlideTimeout = index => {
-    return new Promise(async resolve => {
-        const currentSlide = slides[index - 1];
-        let timeout = currentSlide.timeout * 1000;
-        await setContent(currentSlide);
-        const timer = window.setTimeout(() => {
-            if (index === slides.length && currentTab) {
-                initSlideShow(currentTab);
-            }
-            resolve();
-        }, timeout)
-    });
-};
-
-const setContent = async slide => {
-    return new Promise(async resolve => {
-        try {
-            if (currentTab) {
-                chrome.tabs.update(currentTab.id, {
-                    url: slide.httpLink
-                });
-            }
-        } catch (error) {
-            console.log(error);
-        } finally {
-            resolve();
-        }
-    });
-};
-
-const setCurrentTab = tab => {
-    return new Promise(async resolve => {
-        currentTab = tab;
-        resolve();
-    });
-};
-
-const setPageFromConfig = config => {
-    hasConfigSettings = !!config.apiUrl;
-    fullscreen = config.fullscreen || false;
-};
-
-const getLocalStorage = async () => {
-    const config = await LocalStorage.get().then(setPageFromConfig);
-};
-
-const setFullscreen = () => {
-    return new Promise(resolve => {
-        if (hasConfigSettings && fullscreen) {
-            if (Utils.isNewTab(currentTab)) {
+    async setFullscreen() {
+        if (this.hasConfigSettings && this.fullscreen) {
+            if (Utils.isNewTab(this.currentTab)) {
                 chrome.windows.update(chrome.windows.WINDOW_ID_CURRENT, { state: "fullscreen" });
             }
         }
-        resolve();
-    });
-};
+    }
 
-(async () => {
-    initSlideShow();
-})();
+    async rotateSlides() {
+        let index = 0;
+
+        this.loops++;
+        do {
+            index++;
+            await this.startSlideTimeout(index);
+        } while (index < this.slides.length);
+    }
+
+    async startSlideTimeout(index) {
+        return new Promise(async resolve => {
+            const currentSlide = this.slides[index - 1];
+            let timeout = currentSlide.timeout * 1000;
+            await this.setContent(currentSlide);
+            const timer = await window.setTimeout(() => {
+                if (index === this.slides.length && this.currentTab) {
+                    this.init(this.currentTab);
+                }
+                resolve();
+            }, timeout)
+        });
+    }
+
+    async setContent(slide) {
+        return new Promise(resolve => {
+            try {
+                if (this.currentTab) {
+                    chrome.tabs.update(this.currentTab.id, {
+                        url: slide.httpLink
+                    });
+                }
+            } catch (error) {
+                console.log(error);
+            } finally {
+                resolve();
+            }
+        });
+    };
+
+    async setPageFromConfig(config) {
+        this.hasConfigSettings = !!config.apiUrl;
+        this.fullscreen = config.fullscreen || false;
+    };
+}

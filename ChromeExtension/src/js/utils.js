@@ -1,19 +1,21 @@
-const Utils = {
+import LocalStorage from './localStorage.js';
+
+export default {
     getCurrentTab: () => {
         return new Promise(resolve => {
-            chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
-                resolve(tabs[0]);
+            chrome.tabs.getSelected(null, tab => {
+                resolve(tab);
             });
         });
     },
     buildDataQuery: async () => {
         // Get the Machine Name and API from storage
-        const api = await LocalStorage.getByKey('apiUrl');
+        const apiUrl = await LocalStorage.getByKey('apiUrl');
         const machine = await LocalStorage.getByKey('machineName');
-        const returnValue = `${api}/api/slides/${machine}`;
+        const returnValue = `${apiUrl}/api/slides/${machine}`;
         return returnValue;
     },
     isNewTab: tab => {
         return tab && tab.url === "chrome://newtab/";
     }
-}
+};

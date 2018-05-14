@@ -1,3 +1,7 @@
+import LocalStorage from './localStorage.js';
+import Notification from './notification.js';
+import Utils from './utils.js';
+
 let apiUrlTxt;
 let launchInFullScreen;
 let machineNameTxt;
@@ -59,7 +63,7 @@ const saveToStorage = () => {
     }
 };
 
-(async () => {
+export default (async () => {
     await getDomElements();
     await addEventListeners();
     await setSavedSettings();
