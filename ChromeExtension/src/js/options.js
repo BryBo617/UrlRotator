@@ -31,8 +31,8 @@ const addEventListeners = () => {
 const setSavedSettings = async () => {
     const config = await LocalStorage.get().then(results => {
         apiUrlTxt.value = results.apiUrl || '';
-        autoStart.checked = results.autoStart || true;
-        launchInFullScreen.checked = results.fullscreen || false;
+        autoStart.checked = results.autoStart;
+        launchInFullScreen.checked = results.fullscreen;
         machineNameTxt.value = results.machineName || '';
     });
 }
