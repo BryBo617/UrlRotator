@@ -5,6 +5,7 @@ export default {
         return new Promise(resolve => {
             chrome.storage.local.get([
                 Enums.API_URL,
+                Enums.AUTO_START,
                 Enums.FULLSCREEN,
                 Enums.MACHINE_NAME,
                 Enums.TAB_ID
