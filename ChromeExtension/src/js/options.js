@@ -38,16 +38,15 @@ const setSavedSettings = async () => {
 }
 
 const isValidForm = () => {
-    let results = true;
     if (apiUrlTxt.value === '') {
-        results = false;
+        return false;
     }
-    return results;
+    return true;
 }
 
 const saveToStorage = () => {
     if (!isValidForm()) {
-        alert('Please set up your extension with a query term and API Url.');
+        alert('API Url is a required field. Please supply a value.');
     } else {
         const save = LocalStorage.set({
             apiUrl: apiUrlTxt.value,
@@ -56,7 +55,7 @@ const saveToStorage = () => {
             machineName: machineNameTxt.value
         })
         .then(setSavedSettings)
-        .then(Notification.pop('Sweet!', 'That was lucky. You saved it man, thanks!'));
+        .then(Notification.pop('Sweet!', 'That was lucky. You saved it man. Thanks!'));
     }
 };
 
