@@ -22,7 +22,7 @@ chrome.browserAction.onClicked.addListener(tab => {
     slideShow.init(tab);
 });
 
-chrome.runtime.onStartup.addListener(async () => {
+const onStartOrCreated = async () => {
     const currentTab = await Utils.getCurrentTab().then(t => { return t; });
     const autoStart = await LocalStorage.getByKey('autoStart').then(result => {
         return result;
@@ -36,10 +36,14 @@ chrome.runtime.onStartup.addListener(async () => {
     } else {
         Notification.pop('Error', 'We don\'t have a tab to use.');
     }
+}
+
+chrome.runtime.onStartup.addListener(async () => {
+    onStartOrCreated();
 });
 
 chrome.tabs.onCreated.addListener(async () => {
-    popStartMessage();
+    onStartOrCreated();
 });
 
 chrome.tabs.onRemoved.addListener((tabId, info) => {

@@ -56,12 +56,12 @@ export default class SlideShow {
         await LocalStorage.get().then(this.setPageFromConfig.bind(this));
     }
 
-    async setPageFromConfig(config) {
+    setPageFromConfig(config) {
         this.hasConfigSettings = !!config.apiUrl;
         this.fullscreen = config.fullscreen || false;
     }
 
-    async resetExtension(closingTabId) {
+    resetExtension(closingTabId) {
         if (!this.currentTab) return;
         if (this.currentTab.id === closingTabId) {
             this.currentTab = null;
@@ -69,12 +69,12 @@ export default class SlideShow {
         return;
     }
 
-    async setCurrentTab(tab) {
+    setCurrentTab(tab) {
         this.currentTab = tab;
         return this.currentTab;
     }
 
-    async setFullscreen() {
+    setFullscreen() {
         if (this.hasConfigSettings && this.fullscreen) {
             if (Utils.isNewTab(this.currentTab)) {
                 chrome.windows.update(chrome.windows.WINDOW_ID_CURRENT, { state: "fullscreen" });
@@ -92,7 +92,7 @@ export default class SlideShow {
         } while (index < this.slides.length);
     }
 
-    async startSlideTimeout(index) {
+    startSlideTimeout(index) {
         return new Promise(async resolve => {
             const currentSlide = this.slides[index - 1];
             let timeout = currentSlide.timeout * 1000;
@@ -106,7 +106,7 @@ export default class SlideShow {
         });
     }
 
-    async setContent(slide) {
+    setContent(slide) {
         return new Promise(resolve => {
             try {
                 if (this.currentTab) {
@@ -120,10 +120,5 @@ export default class SlideShow {
                 resolve();
             }
         });
-    };
-
-    async setPageFromConfig(config) {
-        this.hasConfigSettings = !!config.apiUrl;
-        this.fullscreen = config.fullscreen || false;
     };
 }
