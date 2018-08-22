@@ -3,6 +3,7 @@ import Notification from './notification.js';
 import Utils from './utils.js';
 
 let apiUrlTxt;
+let autoStart;
 let launchInFullScreen;
 let machineNameTxt;
 let saveBtn;
@@ -10,6 +11,7 @@ let saveBtn;
 const getDomElements = () => {
     return new Promise(resolve => {
         apiUrlTxt = document.getElementById('apiUrlTxt');
+        autoStart = document.getElementById('autoStartSlideShow');
         launchInFullScreen = document.getElementById('launchInFullScreenCheckbox');
         machineNameTxt = document.getElementById('machineNameTxt');
         saveBtn = document.getElementById('saveOptionsBtn');
@@ -29,37 +31,31 @@ const addEventListeners = () => {
 const setSavedSettings = async () => {
     const config = await LocalStorage.get().then(results => {
         apiUrlTxt.value = results.apiUrl || '';
-        launchInFullScreen.checked = results.fullscreen || false;
+        autoStart.checked = results.autoStart;
+        launchInFullScreen.checked = results.fullscreen;
         machineNameTxt.value = results.machineName || '';
     });
 }
 
 const isValidForm = () => {
-    let results = true;
     if (apiUrlTxt.value === '') {
-        results = false;
+        return false;
     }
-    return results;
+    return true;
 }
-
-const startSlideShow = () => {
-    Utils.getCurrentTab()
-    .then(tab => {
-        initSlideShow(tab);
-    });
-};
 
 const saveToStorage = () => {
     if (!isValidForm()) {
-        alert('Please set up your extension with a query term and API Url.');
+        alert('API Url is a required field. Please supply a value.');
     } else {
         const save = LocalStorage.set({
             apiUrl: apiUrlTxt.value,
+            autoStart: autoStart.checked,
             fullscreen: launchInFullScreen.checked,
             machineName: machineNameTxt.value
         })
         .then(setSavedSettings)
-        .then(Notification.pop('Sweet!', 'That was lucky. You saved it man, thanks!'));
+        .then(Notification.pop('Sweet!', 'That was lucky. You saved it man. Thanks!'));
     }
 };
 

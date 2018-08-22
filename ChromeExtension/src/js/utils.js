@@ -16,6 +16,8 @@ export default {
         return returnValue;
     },
     isNewTab: tab => {
-        return tab && tab.url === "chrome://newtab/";
+        return new Promise(resolve => {
+            resolve(tab && tab.url === "chrome://newtab/");
+        });
     }
 };

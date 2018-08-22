@@ -14,54 +14,68 @@
     <body>
       <div class="content">
           <h4>Novation iQ - URL Rotator</h4>
-          <p>
-              <h5>Configure your extension.</h5>
-              <div class="flex-row">
-                <div class="flex-col">
-                    <label class="label" for='machineNameTxt'>Machine Name (Query Term)</label>
-                </div>
-                <div class="flex-col">
-                    <div class="input-group mb-3">
-                        <input class="form-control" type='text' id="machineNameTxt" aria-label="Machine Name" />
-                    </div>
-                </div>
-              </div>
-              <div class="flex-row">
-                  <div class="flex-col">
-                      <label class="label" for='apiUrlTxt'>Set the APIs URL.</label>
-                  </div>
-                  <div class="flex-col">
-                    <div class="input-group mb-3">
-                        <input type="text" class="form-control" id="apiUrlTxt" placeholder="http://127.0.0.1/" aria-label="URL to API">
-                        <div class="input-group-append">
-                            <span class="input-group-text">/api/slides/</span>
+            <p>
+                <h5>Configure your extension.</h5>
+                <div id="WebApiOptions">
+                    <div class="flex-row">
+                        <div class="flex-col">
+                            <label class="label" for='machineNameTxt'>Machine Name (Query Term)</label>
+                        </div>
+                        <div class="flex-col">
+                            <div class="input-group mb-3">
+                                <input class="form-control" type='text' id="machineNameTxt" aria-label="Machine Name" />
+                            </div>
+                        </div>
+                      </div>
+                      <div class="flex-row">
+                          <div class="flex-col">
+                              <label class="label" for='apiUrlTxt'>Set the APIs URL.</label>
+                          </div>
+                          <div class="flex-col">
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" id="apiUrlTxt" placeholder="http://127.0.0.1/" aria-label="URL to API">
+                                <div class="input-group-append">
+                                    <span class="input-group-text">/api/slides/</span>
+                                </div>
+                            </div>
+                        </div>
+                      </div>
+                      <div class="flex-row">
+                          <div class="flex-col">&nbsp;</div>
+                          <div class="flex-col">
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="launchInFullScreenCheckbox">
+                                <label class="form-check-label" for="launchInFullScreenCheckbox">Launch in full screen.</label>
+                            </div>
+                          </div>
+                      </div>
+                      <div class="flex-row">
+                        <div class="flex-col">&nbsp;</div>
+                        <div class="flex-col">
+                          <div class="form-check">
+                              <input type="checkbox" class="form-check-input" id="autoStartSlideShow">
+                              <label class="form-check-label" for="autoStartSlideShow">Auto Start Slideshow</label>
+                          </div>
                         </div>
                     </div>
+                      <div class="flex-row">
+                          <div class="flex-col">&nbsp;</div>
+                          <div class="flex-col align-right">
+                              <button
+                                class="btn btn-outline-secondary"
+                                id="saveOptionsBtn">
+                                Submit
+                            </button>
+                          </div>
+                      </div>
+                      <div class="flex-row">
+                        <div class="flex-col">To start the slide show, click the Extension Icon.</div>
+                      </div>
                 </div>
-              </div>
-              <div class="flex-row">
-                  <div class="flex-col">&nbsp;</div>
-                  <div class="flex-col">
-                    <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="launchInFullScreenCheckbox">
-                        <label class="form-check-label" for="launchInFullScreenCheckbox">Launch in full screen.</label>
-                    </div>
-                  </div>
-              </div>
-              <div class="flex-row">
-                  <div class="flex-col">&nbsp;</div>
-                  <div class="flex-col align-right">
-                      <button
-                        class="btn btn-outline-secondary"
-                        id="saveOptionsBtn">
-                        Submit
-                    </button>
-                  </div>
-              </div>
-              <div class="flex-row">
-                <div class="flex-col">To start the slide show, click the Extension Icon.</div>
-              </div>
-          </p>
+                <div id="LocalStateConfig">
+                    build this.
+                </div>
+            </p>
       </div>
       <script src="../js/options.js" type="module"></script>
     </body>
