@@ -10,10 +10,12 @@ export default {
     },
     buildDataQuery: async () => {
         // Get the Machine Name and API from storage
-        const apiUrl = await LocalStorage.getByKey('apiUrl');
-        const machine = await LocalStorage.getByKey('machineName');
-        const returnValue = `${apiUrl}/api/slides/${machine}`;
-        return returnValue;
+        const [apiUrl, machine] = await Promise.all([
+            await LocalStorage.getByKey('apiUrl'),
+            await LocalStorage.getByKey('machineName')
+        ]);
+
+        return `${apiUrl}/api/slides/${machine}`;
     },
     isNewTab: tab => {
         return new Promise(resolve => {
