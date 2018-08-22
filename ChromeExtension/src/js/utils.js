@@ -19,7 +19,7 @@ export default {
     },
     isNewTab: tab => {
         return new Promise(resolve => {
-            resolve(tab && tab.url === "chrome://newtab/");
+            resolve(tab && tab.url.indexOf("newtab") > -1);
         });
     }
 };
